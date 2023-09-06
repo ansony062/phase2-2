@@ -1,5 +1,5 @@
 class RelationshipsController < ApplicationController
-  beforeaction :authenticate_user!
+  before_action :authenticate_user!
 
   def create
     user = User.find(params[:user_id])
@@ -20,7 +20,7 @@ class RelationshipsController < ApplicationController
 
   def followers
     user = User.find(params[:user_id])
-    @user = user.followers
+    @users = user.followers
   end
 
 end
