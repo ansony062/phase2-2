@@ -25,15 +25,28 @@ class User < ApplicationRecord
 
 
   def follow(user)
-    active_relationships.create(followed_id: user.id)
+    relationships.create(followed_id: user.id)
   end
 
   def unfollow(user)
-    active_relationships.find_by(followed_id: user.id).destroy
+    relationships.find_by(followed_id: user.id).destroy
   end
 
   def following?(user)
     followings.include?(user)
+  end
+
+
+  def self.search_for(content, method)
+    if method == 'perfect'
+      User.where(name: content)
+    elsif method == 'forward'
+      User.where('name LIKE ?', content + '%')
+    elsif method == 'backward'
+      User.where('name LIKE ?', '%' + content)
+    else
+      User.where('name LIKE ?', '%' + content + '%')
+    end
   end
 
 
