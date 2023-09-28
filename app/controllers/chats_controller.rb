@@ -25,7 +25,10 @@ class ChatsController < ApplicationController
 
 
   def reject_non_ralated
+    user = User.find(params[:id])
+    unless current_user.following?(user) && user.following?(current_user)
+      redirect_to book_path
+    end
   end
-
 
 end
